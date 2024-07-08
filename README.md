@@ -26,16 +26,59 @@ const route = inject('route')`
 
 ## 3. swiper breakpoint not work in ssr mode slidePerView is just what it is in first load 
   i happen because in server side we dont have window or document to see size . we can init swiper in client side or better way that i find is not using breakpoints . we must set slides-per-view="auto" and add css class for size to swiper-slide \
-  ` <swiper-container free-mode="true"
+  `
+ <swiper-container free-mode="true"
                                       slides-per-view="auto"
                                       space-between="14"
                                       loop="true"
                                       autoplay-delay="3000"
                                       navigation-next-el=".swiper-button-next"
                                       navigation-prev-el=".swiper-button-prev"
-
                                       class=" p-px">
                         <swiper-slide v-for="(item , index) in productSlider4.items" :key="index" class="w-50" > ` 
+
+## 4. swiper-container slidePerView make 1 when i change swiper-slide in it using vuejs
+the error happen in :
+`
+ <swiper-container free-mode="true" slides-per-view="2.3" space-between=10 >
+                                            <!-- Product Card -->
+                                            <swiper-slide v-for="p in search_data.products" :key="p.id">
+                                                <Link
+                                                    :href="route('product',p.slug)"
+                                                    class="flex items-center gap-x-2 rounded-xl border border-gray-100 px-4 py-2 text-zinc-500 hover:border-gray-200 dark:border-white/5 dark:text-zinc-400 hover:dark:border-white/10"
+                                                >
+                                                    <img
+                                                        :src="p.imageUrl"
+                                                        alt="Product Image"
+                                                        class="w-12"
+                                                    />
+                                                    <p class="line-clamp-2">
+                                                        {{ p.name }}
+                                                    </p>
+                                                </Link>
+                                            </swiper-slide>
+                                        </swiper-container>`
+when searchdata-change slidePerView be 1 because vuejs reload the component and forget slidePerview i fix it using slidePerView="auto" and fix size of Swiper-slide
+`
+<swiper-container free-mode="true" slides-per-view="auto" space-between=10 >
+                                            <!-- Product Card -->
+                                            <swiper-slide v-for="p in search_data.products" :key="p.id" class="w-50">
+                                                <Link
+                                                    :href="route('product',p.slug)"
+                                                    class="flex items-center gap-x-2 rounded-xl border border-gray-100 px-4 py-2 text-zinc-500 hover:border-gray-200 dark:border-white/5 dark:text-zinc-400 hover:dark:border-white/10"
+                                                >
+                                                    <img
+                                                        :src="p.imageUrl"
+                                                        alt="Product Image"
+                                                        class="w-12"
+                                                    />
+                                                    <p class="line-clamp-2">
+                                                        {{ p.name }}
+                                                    </p>
+                                                </Link>
+                                            </swiper-slide>
+                                        </swiper-container>`
+
   
   
 
