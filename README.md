@@ -23,6 +23,19 @@ const route = inject('route')`
   
 ## 2. error onMount funciton in ssr 
   must use beforeMount()
+
+## 3. swiper breakpoint not work in ssr mode slidePerView is just what it is in first load 
+  i happen because in server side we dont have window or document to see size . we can init swiper in client side or better way that i find is not using breakpoints . we must set slides-per-view="auto" and add css class for size to swiper-slide \
+  ` <swiper-container free-mode="true"
+                                      slides-per-view="auto"
+                                      space-between="14"
+                                      loop="true"
+                                      autoplay-delay="3000"
+                                      navigation-next-el=".swiper-button-next"
+                                      navigation-prev-el=".swiper-button-prev"
+
+                                      class=" p-px">
+                        <swiper-slide v-for="(item , index) in productSlider4.items" :key="index" class="w-50" > ` 
   
   
 
